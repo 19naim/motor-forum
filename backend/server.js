@@ -20,11 +20,31 @@ let mongo_cloud = "mongodb+srv://motor-forum:cse2294@cluster0.tdm3w.mongodb.net/
     });
 
 
+//get method
+    app.get('/api/forums', async (req, res) => {
+        await Forum.find({}, (err, forum)=>{
+          if (err) {
+            res.json(err);
+          }else{
+            res.json(forum);
+          }
+        })
+      })
 
-app.get("/", (req,res)=>{
-    res.send({"name":"Naim"})
-})
+// get single post by ID
+app.get('/api/forums/:_id', async (req, res)=>{
+    try {
+      let forumSubject= await Forum.findById(req.params._id);
+        if(!forumSubject) 
+          return res.status(404).send("Forum not found!");
+        res.send(forumSubject);
+    } catch(e) {
+        return res.status(404).send("Forum not found!");
+    }
+  })
 
+
+// post method      
 app.post('/api/forums',  async (req, res) => {
     console.log(req.body)
     await Forum.create(req.body, (err, text)=>{
