@@ -12,10 +12,10 @@ class DependencyConfig {
     
 //Mongo DB configuration
 let mongo_cloud = "mongodb+srv://motor-forum:cse2294@cluster0.tdm3w.mongodb.net/motor-forum?retryWrites=true&w=majority"
-    mongoose.connect(mongo_cloud, { 
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
-    });
+mongoose.connect(mongo_cloud , { 
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
 
 
     // BODY-PARSER CONFIG
