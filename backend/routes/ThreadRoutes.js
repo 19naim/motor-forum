@@ -1,5 +1,6 @@
 const Forum = require('../models/forum');
 const Thread = require('../models/thread');
+const Post = require('../models/post');
 
 class ThreadRoutes{
 
@@ -10,6 +11,21 @@ class ThreadRoutes{
     this.postThreadPost();
     this.editForumThread();
     this.deleteForumThread();
+    this.getMyThreads();
+  }
+
+  // GET MY THREADS
+  getMyThreads(){
+    this.app.get("/search/mythreads", (req, res) => {
+      let query = { "author.username": req.query.username }
+      Thread.find(query, (err, mythreads) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(mythreads);
+        }
+      });
+    });
   }
 
   // GET FORUM THREAD BY ID
@@ -127,6 +143,38 @@ class ThreadRoutes{
         return res.status(404).send('This forum is no longer exist!');
       }
     });
+  }
+
+  // POST THREAD POST
+  postThreadPost(){
+    this.app.post('/api/forums/:_id1/:_id2', async (req, res)=>{
+      try {
+        let forumSubject= await Forum.findById(req.params._id1);
+          if(!forumSubject) {
+            return res.status(404).send("Forum not found!");
+          }else{
+            let threadTopic = await Thread.findById(req.params._id2);
+            if(!threadTopic){
+              return res.status(404).send("Thread not found!");
+            }else{
+              await Post.create(req.body, (err, post)=>{
+                if (err) {
+                  res.json(err.message);
+                }else{
+                  post.author.id = req.user._id;
+                  post.author.username = req.user.username;
+                  threadTopic.posts.push(post);
+                  post.save();
+                  threadTopic.save();
+                  res.json('Post submitting successful!')
+                }
+              }) 
+            }
+          }        
+      } catch(e) {
+          return res.status(404).send("Page not found!");
+      }
+    })
   }
 
 }

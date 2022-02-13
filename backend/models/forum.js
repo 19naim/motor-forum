@@ -10,10 +10,10 @@ let forumSchema = new mongoose.Schema({
     required: true
   },
   threads: [
-    {
-      type:mongoose.Schema.Types.ObjectId,
-      ref: 'Thread'
-    }
+      {
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'Thread'
+      }
   ]
 });
 
