@@ -56,4 +56,4 @@ const ForumContextProvider = (props) => {
   )
 }
 
-export default ForumContextProvider
+export default ForumContextProvider;

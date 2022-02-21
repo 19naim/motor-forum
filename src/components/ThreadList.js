@@ -1,9 +1,10 @@
 import React, {useContext} from 'react'
 import { ForumContext } from '../contexts/ForumContextProvider'
+import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 
 const ThreadList = () => {
-  const { threads } = useContext(ForumContext)
+  const { threads, subjectId, subjectName, fetchThreadById } = useContext(ForumContext)
 
   const mapThreads = () => {
     return threads.map((thread, i) => {
@@ -11,8 +12,11 @@ const ThreadList = () => {
         <div key={'sub' + thread._id + i}>
         <Row>
           <Col xs="9" sm="8">
+            <Link to={`/${subjectName}/${thread.topic}`} style={{ textDecoration: 'none' }}
+              onClick={()=>fetchThreadById(subjectId, thread._id)}>
               <h5 className="text-secondary mt-1 pb-0">{thread.topic}</h5>
               <p className="text-primary mt-0 pt-0">Writer: {thread.author.username.toUpperCase()}</p>
+            </Link>       
           </Col>
           <Col xs="3" sm="4" className="text-right mt-2 d-none d-lg-block">{thread.posts.length}</Col>
         </Row>
@@ -33,4 +37,4 @@ const ThreadList = () => {
   )
 }
 
-export default ThreadList
+export default ThreadList;
