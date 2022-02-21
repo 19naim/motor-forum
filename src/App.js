@@ -5,6 +5,7 @@ import ThreadList from './components/ThreadList'
 import Navbar from './components/ForumNavbar'
 import Footer from './components/ForumFooter'
 import Register from './pages/Register';
+import Signin from './pages/Signin'
 
 import ForumContextProvider from './contexts/ForumContextProvider'
 
@@ -18,7 +19,8 @@ const App = () => {
               <Routes>         
                 <Route path="/" element={<Home/>} />                  
                 <Route path="/:id" element={<ThreadList/>} />  
-                <Route path="/register" element={<Register/>} />                               
+                <Route path="/register" element={<Register/>} />  
+                <Route path="/signin" element={<Signin/>} />                             
               </Routes>
             </div>   
           <Footer/>                 

@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect } from 'react'
 export const UserContext = createContext()
 
 const UserContextProvider = (props) => {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState('')
  
   useEffect(()=>{
     const token = JSON.parse(localStorage.getItem('token'))
