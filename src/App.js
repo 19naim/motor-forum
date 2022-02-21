@@ -6,7 +6,8 @@ import Navbar from './components/ForumNavbar'
 import Footer from './components/ForumFooter'
 import Register from './pages/Register';
 import Signin from './pages/Signin'
-
+import MyPage from './pages/MyPage'
+import ProtectedRoute from './routes/ProtectedRoute'
 import ForumContextProvider from './contexts/ForumContextProvider'
 
 const App = () => {
@@ -16,7 +17,8 @@ const App = () => {
         <Router>   
           <Navbar/>              
             <div className="content">
-              <Routes>         
+              <Routes>
+                <ProtectedRoute exact path='/mypage' component={MyPage} />    
                 <Route path="/" element={<Home/>} />                  
                 <Route path="/:id" element={<ThreadList/>} />  
                 <Route path="/register" element={<Register/>} />  
