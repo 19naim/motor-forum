@@ -1,6 +1,7 @@
 const Forum = require('../models/forum');
 const Thread = require('../models/thread');
 const Post = require('../models/post');
+const { isUserLoggedIn } = require('../acl/permission');
 
 class ThreadRoutes{
 
@@ -16,7 +17,7 @@ class ThreadRoutes{
 
   // GET MY THREADS
   getMyThreads(){
-    this.app.get("/search/mythreads", (req, res) => {
+    this.app.get("/search/mythreads", isUserLoggedIn, (req, res) => {
       let query = { "author.username": req.query.username }
       Thread.find(query, (err, mythreads) => {
         if (err) {
@@ -51,7 +52,7 @@ class ThreadRoutes{
 
   // POST A NEW FORUM THREAD
   postNewForumThread(){
-    this.app.post('/api/forums/:_id', async (req, res)=>{
+    this.app.post('/api/forums/:_id', isUserLoggedIn, async (req, res)=>{
       try {
         let forumSubject = await Forum.findById(req.params._id);
         await Thread.create(req.body, (err, thread)=>{
@@ -75,7 +76,7 @@ class ThreadRoutes{
 
   // EDIT A THREAD
   editForumThread(){
-    this.app.put('/api/forums/:_id1/:_id2', (req, res) => {
+    this.app.put('/api/forums/:_id1/:_id2', isUserLoggedIn, (req, res) => {
       try {
         let forum = Forum.findById(req.params._id1);
         if (!forum) {
@@ -108,7 +109,7 @@ class ThreadRoutes{
 
   // DELETE A THREAD
   deleteForumThread(){
-    this.app.delete('/api/forums/:_id1/:_id2', (req, res) => {
+    this.app.delete('/api/forums/:_id1/:_id2', isUserLoggedIn, (req, res) => {
       try {
         let forum = Forum.findById(req.params._id1);
         if (!forum) {
@@ -147,7 +148,7 @@ class ThreadRoutes{
 
   // POST THREAD POST
   postThreadPost(){
-    this.app.post('/api/forums/:_id1/:_id2', async (req, res)=>{
+    this.app.post('/api/forums/:_id1/:_id2', isUserLoggedIn, async (req, res)=>{
       try {
         let forumSubject= await Forum.findById(req.params._id1);
           if(!forumSubject) {
